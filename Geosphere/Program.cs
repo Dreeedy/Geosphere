@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Geosphere
 {
     /// <summary>
-    /// Структура описывает входные параметры, которые предоставляет User: адрес, величина упрощения полигона, имя файла.
+    /// Структура описывает входные параметры, которые предоставляет Пользователь: адрес, величина упрощения полигона, имя файла.
     /// </summary>
     struct SearchQuery
     {
@@ -55,14 +55,17 @@ namespace Geosphere
             _httpClient = new HttpGeographicClient();
             _geographicService = new NominatimGeographicService();
 
-            _saveHandler = new JsonSave();
+            _saveHandler = new JsonSave("polygons_json");
         }
 
         private static void Main(string[] args)
         {
-            string searchResults;
-            searchResults = _geographicService.Search(in _searchQuery, ref _httpClient);
-            ConsoleHandler.WriteYellow(searchResults);
+            string data;
+            data = _geographicService.Search(in _searchQuery, ref _httpClient);
+            ConsoleHandler.WriteYellow(data);
+            Console.Clear();
+
+            _saveHandler.Save(data, _searchQuery.GetFileName());            
 
             Console.ReadKey();
         }

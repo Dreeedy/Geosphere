@@ -99,7 +99,13 @@ namespace Geosphere
         private static string GetPolygonSimplification(out string _polygonSimplification)
         {
             ConsoleHandler.WriteYellow("Величина упрощения полигона [0,000]: ");
+
             _polygonSimplification = ConsoleHandler.Read();
+
+            if (_polygonSimplification == "")// если ничего не ввели
+            {
+                _polygonSimplification = "0.000";
+            }
             Console.Clear();                
 
             return _polygonSimplification;
