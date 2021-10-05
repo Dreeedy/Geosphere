@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Geosphere
 {
@@ -51,6 +46,9 @@ namespace Geosphere
 
         private static SaveHandler _saveHandler;
 
+        /// <summary>
+        /// Статический конструктор инициализирует базовые части программы при первом обращении
+        /// </summary>
         static Program()
         {           
             _httpClient = new HttpGeographicClient();
@@ -59,23 +57,34 @@ namespace Geosphere
             _saveHandler = new JsonSave("polygons_json");
         }
 
+        /// <summary>
+        /// Точка входа в программу
+        /// </summary>
+        /// <param name="args"></param>
         private static void Main(string[] args)
         {
             StartGetPolygonsProcess();
         }
 
+        /// <summary>
+        /// Метод содержит и управляет "основным циклом" программы
+        /// </summary>
         private static void StartGetPolygonsProcess()
         {
             bool continueWork = true;
             do
             {
+                // Получаем данные от Пользователя
                 _searchQuery = ConsoleHandler.GetSearchQuery();
 
+                // Выполняем запрос к георафическому сервису и получаем ответ
                 string data;
                 data = _geographicService.Search(in _searchQuery, ref _httpClient);
 
+                // Сохраняем ответ
                 _saveHandler.Save(data, _searchQuery.GetFileName());
 
+                // Способ оставноки работы программы
                 ConsoleHandler.WriteYellow("Введите \"/stop\" или нажмите Enter");
                 string command = ConsoleHandler.Read();
                 if (command == "/stop")

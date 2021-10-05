@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Geosphere
+﻿namespace Geosphere
 {
     /// <summary>
     /// Абстрактный класс SaveHandler, объявляет общий функционал для возможных реализаций сохранения файла,
@@ -12,6 +6,11 @@ namespace Geosphere
     /// </summary>
     abstract class SaveHandler
     {
+        /// <summary>
+        /// Метод сохраняет данные в определенную директорию в определенном формате
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="fileName"></param>
         abstract public void Save(string data, string fileName);
     }
 }
