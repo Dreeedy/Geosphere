@@ -80,7 +80,7 @@ namespace Geosphere
 
                 // Выполняем запрос к георафическому сервису и получаем ответ
                 string data;
-                data = _geographicService.Search(in _searchQuery, _httpClient);
+                data = _geographicService.Search(in _searchQuery, in _httpClient);
 
                 // Сохраняем ответ
                 _saveHandler.Save(in data, _searchQuery.GetFileName());
