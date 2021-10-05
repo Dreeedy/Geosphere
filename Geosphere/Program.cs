@@ -52,9 +52,7 @@ namespace Geosphere
         private static SaveHandler _saveHandler;
 
         static Program()
-        {
-            _searchQuery = ConsoleHandler.GetSearchQuery();
-
+        {           
             _httpClient = new HttpGeographicClient();
             _geographicService = new NominatimGeographicService();
 
@@ -63,12 +61,31 @@ namespace Geosphere
 
         private static void Main(string[] args)
         {
-            string data;
-            data = _geographicService.Search(in _searchQuery, ref _httpClient);
+            StartGetPolygonsProcess();
+        }
 
-            _saveHandler.Save(data, _searchQuery.GetFileName());            
+        private static void StartGetPolygonsProcess()
+        {
+            bool continueWork = true;
+            do
+            {
+                _searchQuery = ConsoleHandler.GetSearchQuery();
 
-            Console.ReadKey();
+                string data;
+                data = _geographicService.Search(in _searchQuery, ref _httpClient);
+
+                _saveHandler.Save(data, _searchQuery.GetFileName());
+
+                ConsoleHandler.WriteYellow("Введите \"/stop\" или нажмите Enter");
+                string command = ConsoleHandler.Read();
+                if (command == "/stop")
+                {
+                    continueWork = false;
+                }
+
+                Console.Clear();
+            }
+            while (continueWork);
         }
     }
 }
