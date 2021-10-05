@@ -31,18 +31,25 @@ namespace Geosphere
         {
             ConsoleHandler.WriteCyan($"[3/4] Сохранение файла [{fileName}.json]... ");
 
-            string path = _pathToJsonFolder + "/" + fileName + ".json";            
+            string path = _pathToJsonFolder + "/" + fileName + ".json";
 
-            // Создание файла
-            FileStream fileStream = new FileStream(path, FileMode.Create);
-            StreamWriter streamWriter = new StreamWriter(fileStream);
+            try
+            {
+                // Создание файла
+                FileStream fileStream = new FileStream(path, FileMode.Create);
+                StreamWriter streamWriter = new StreamWriter(fileStream);
 
-            // Запись в файл
-            streamWriter.Write(data);
+                // Запись в файл
+                streamWriter.Write(data);
 
-            // Закрытие потоков для работы с файлом
-            streamWriter.Close();
-            fileStream.Close();
+                // Закрытие потоков для работы с файлом
+                streamWriter.Close();
+                fileStream.Close();
+            }
+            catch (Exception e)
+            {
+                ConsoleHandler.ShowError(e);
+            }
 
             ConsoleHandler.WriteCyan($"[4/4] Файл [{fileName}.json] успешно сохранен.");
             ConsoleHandler.WriteSplitter('*', 120);
