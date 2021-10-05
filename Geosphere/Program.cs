@@ -85,10 +85,10 @@ namespace Geosphere
                 // Сохраняем ответ
                 _saveHandler.Save(in data, _searchQuery.GetFileName());
 
-                // Способ оставноки работы программы
+                // Способ остановки работы программы
                 ConsoleHandler.WriteYellow("Введите \"/stop\" или нажмите Enter");
-                string command = ConsoleHandler.Read();
-                if (command == "/stop")
+                string commandStop = ConsoleHandler.Read();
+                if (commandStop == "/stop")
                 {
                     continueWork = false;
                 }
