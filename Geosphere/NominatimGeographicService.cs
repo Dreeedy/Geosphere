@@ -11,7 +11,7 @@
         /// <param name="searchQuery"></param>
         /// <param name="httpClient"></param>
         /// <returns></returns>
-        public override string Search(in SearchQuery searchQuery, ref IHttpClient httpClient)
+        public override string Search(in SearchQuery searchQuery, IHttpClient httpClient)
         {
             string result;
             result = httpClient.GetContent(in searchQuery);

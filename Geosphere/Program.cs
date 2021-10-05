@@ -80,10 +80,10 @@ namespace Geosphere
 
                 // Выполняем запрос к георафическому сервису и получаем ответ
                 string data;
-                data = _geographicService.Search(in _searchQuery, ref _httpClient);
+                data = _geographicService.Search(in _searchQuery, _httpClient);
 
                 // Сохраняем ответ
-                _saveHandler.Save(data, _searchQuery.GetFileName());
+                _saveHandler.Save(in data, _searchQuery.GetFileName());
 
                 // Способ оставноки работы программы
                 ConsoleHandler.WriteYellow("Введите \"/stop\" или нажмите Enter");

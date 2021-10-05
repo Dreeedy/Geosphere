@@ -12,6 +12,6 @@
         /// <param name="searchQuery"></param>
         /// <param name="httpClient"></param>
         /// <returns></returns>
-        abstract public string Search(in SearchQuery searchQuery, ref IHttpClient httpClient);
+        abstract public string Search(in SearchQuery searchQuery, IHttpClient httpClient);
     }
 }
