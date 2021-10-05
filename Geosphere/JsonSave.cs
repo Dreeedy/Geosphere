@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Geosphere
 {
@@ -38,11 +33,14 @@ namespace Geosphere
 
             string path = _pathToJsonFolder + "/" + fileName + ".json";            
 
+            // Создание файла
             FileStream fileStream = new FileStream(path, FileMode.Create);
             StreamWriter streamWriter = new StreamWriter(fileStream);
 
+            // Запись в файл
             streamWriter.Write(data);
 
+            // Закрытие потоков для работы с файлом
             streamWriter.Close();
             fileStream.Close();
 

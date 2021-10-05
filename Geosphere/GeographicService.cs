@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Geosphere
+﻿namespace Geosphere
 {
     /// <summary>
     /// Абстрактный класс GeographicService, объявляет общий функционал для всех географических сервисов,

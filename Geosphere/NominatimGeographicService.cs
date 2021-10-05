@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Geosphere
+﻿namespace Geosphere
 {
     /// <summary>
     /// Класс для взаимодействия с географическим сервисом Nominatim https://nominatim.openstreetmap.org/
