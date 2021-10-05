@@ -27,7 +27,7 @@ namespace Geosphere
         /// </summary>
         /// <param name="data"></param>
         /// <param name="fileName"></param>
-        public override void Save(in string data, string fileName)
+        public override void Save(string data, string fileName)
         {
             ConsoleHandler.WriteCyan($"[3/4] Сохранение файла [{fileName}.json]... ");
 

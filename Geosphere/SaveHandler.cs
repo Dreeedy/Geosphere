@@ -11,6 +11,6 @@
         /// </summary>
         /// <param name="data"></param>
         /// <param name="fileName"></param>
-        abstract public void Save(in string data, string fileName);
+        abstract public void Save(string data, string fileName);
     }
 }
