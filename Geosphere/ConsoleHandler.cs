@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Geosphere
 {
@@ -12,6 +9,9 @@ namespace Geosphere
     /// </summary>
     static class ConsoleHandler
     {
+        /// <summary>
+        /// Статический конструктор очищает консоль при запуске программы
+        /// </summary>
         static ConsoleHandler()
         {
             Console.Clear();
@@ -90,6 +90,26 @@ namespace Geosphere
         }
 
         /// <summary>
+        /// Метод специализирован для вывода ошибок в консоль
+        /// </summary>
+        /// <param name="e"></param>
+        public static void ShowError(Exception e)
+        {
+            if (Console.ForegroundColor == ConsoleColor.Red)
+            {
+                Console.WriteLine("\nОбнаружено исключение!");
+                Console.WriteLine("Ошибка :{0} ", e.Message);
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nОбнаружено исключение!");
+                Console.WriteLine("Ошибка :{0} ", e.Message);
+            }
+            Console.ResetColor();
+        }
+
+        /// <summary>
         /// Метод принимает ввод с консоли
         /// </summary>
         /// <returns></returns>
@@ -109,9 +129,9 @@ namespace Geosphere
             string _polygonSimplification;
             string _fileName;
 
-            _address = ConsoleHandler.GetAddress(out _address);
-            _polygonSimplification = ConsoleHandler.GetPolygonSimplification(out _polygonSimplification);
-            _fileName = ConsoleHandler.GetFileName(out _fileName);
+            ConsoleHandler.GetAddress(out _address);
+            ConsoleHandler.GetPolygonSimplification(out _polygonSimplification);
+            ConsoleHandler.GetFileName(out _fileName);
 
             SearchQuery searchQuery = new SearchQuery(_address, _fileName, _polygonSimplification);
 
@@ -132,27 +152,43 @@ namespace Geosphere
         /// </summary>
         /// <param name="_address"></param>
         /// <returns></returns>
-        private static string GetAddress(out string _address)
+        private static void GetAddress(out string _address)
         {
             bool go = false;
             
             do
             {
-                go = false;
-
-                ConsoleHandler.WriteYellow("Введите адрес: ");
-                _address = ConsoleHandler.Read();
-
-                if (_address.Count() <= 0)// если пользователь ничего не ввел
+                try
                 {
-                    go = true;
+                    AddressValidation(ref go, out _address);
                 }
-
-                Console.Clear();
+                catch (Exception e)
+                {
+                    _address = "";
+                    ConsoleHandler.ShowError(e);
+                }
             } 
-            while (go);            
+            while (go);      
+        }
 
-            return _address;
+        /// <summary>
+        /// Метод выполняет валидацию адреса
+        /// </summary>
+        /// <param name="go"></param>
+        /// <param name="_address"></param>
+        private static void AddressValidation(ref bool go, out string _address)
+        {
+            go = false;
+
+            ConsoleHandler.WriteYellow("Введите адрес: ");
+            _address = ConsoleHandler.Read();
+
+            if (_address.Count() <= 0)// если пользователь ничего не ввел
+            {
+                go = true;
+            }
+
+            Console.Clear();
         }
 
         /// <summary>
@@ -162,22 +198,64 @@ namespace Geosphere
         /// <returns></returns>
         private static string GetPolygonSimplification(out string _polygonSimplification)
         {
-            // TODO: реализовать через float
-            ConsoleHandler.WriteYellow("Введите величину упрощения полигона [0.000 - значение по умолчанию]: ");
+            bool go = false;
 
-            _polygonSimplification = ConsoleHandler.Read();
-
-            if (_polygonSimplification == "")// если пользователь ничего не ввели
+            do
             {
-                _polygonSimplification = "0.000";
+                try
+                {
+                    PolygonSimplificationValidation(ref go, out _polygonSimplification);
+                }
+                catch (Exception e)
+                {
+
+                    _polygonSimplification = "";
+                    ConsoleHandler.ShowError(e);
+                }
             }
-            Console.Clear();
+            while (go);      
 
             return _polygonSimplification;
         }
 
         /// <summary>
-        /// Метод принимает от Пользователя имя файла
+        /// Метод выполняет валидацию величины упрощения полигона
+        /// </summary>
+        /// <param name="go"></param>
+        /// <param name="_polygonSimplification"></param>
+        private static void PolygonSimplificationValidation(ref bool go, out string _polygonSimplification)
+        {
+            go = false;
+
+            ConsoleHandler.WriteYellow("Введите величину упрощения полигона [0.000 - значение по умолчанию]: ");
+
+            _polygonSimplification = ConsoleHandler.Read();
+
+            if (_polygonSimplification == "")// если Пользователь ничего не ввел, установка значения по умолчанию
+            {
+                string defaultPolygonSimplification = "0.000";
+                _polygonSimplification = defaultPolygonSimplification;
+            }
+
+            if (_polygonSimplification.Count() > 5)// если символов ввели больше чем "0.000"
+            {
+                go = true;
+            }
+
+            //Конвертация во float, для проверки корректное ли число ввел Пользователь
+            float value;
+            bool isParse;
+            isParse = float.TryParse(_polygonSimplification, NumberStyles.Float, CultureInfo.InvariantCulture, out value);
+            if (!isParse)
+            {
+                go = true;
+            }
+
+            Console.Clear();
+        }
+
+        /// <summary>
+        /// Метод принимает от Пользователя имя файла и выполняет проверки
         /// </summary>
         /// <param name="_fileName"></param>
         /// <returns></returns>
@@ -187,21 +265,39 @@ namespace Geosphere
 
             do
             {
-                go = false;
-
-                ConsoleHandler.WriteYellow("Введите имя файла: ");
-                _fileName = ConsoleHandler.Read();
-
-                if (_fileName.Count() <= 0)// если пользователь ничего не ввел
+                try
                 {
-                    go = true;
+                    FileNameValidation(ref go, out _fileName);
                 }
-
-                Console.Clear();
+                catch (Exception e)
+                {
+                    _fileName = "";
+                    ConsoleHandler.ShowError(e);
+                }
             }
             while (go);
 
             return _fileName;
+        }
+
+        /// <summary>
+        /// Метод выполняет валидацию имени файла
+        /// </summary>
+        /// <param name="go"></param>
+        /// <param name="_fileName"></param>
+        private static void FileNameValidation(ref bool go, out string _fileName)
+        {
+            go = false;
+
+            ConsoleHandler.WriteYellow("Введите имя файла: ");
+            _fileName = ConsoleHandler.Read();
+
+            if (_fileName.Count() <= 0)// если пользователь ничего не ввел
+            {
+                go = true;
+            }
+
+            Console.Clear();
         }
 
         /// <summary>
