@@ -18,7 +18,7 @@ namespace Geosphere
             _httpClient = new HttpClient();
         }
 
-        public void UpdateUrl(in SearchQuery searchQuery)
+        private string UpdateUrl(in SearchQuery searchQuery)
         {
             string url = $"https://nominatim.openstreetmap.org/search?" +
                 $"q={searchQuery.GetAddress()}" +
@@ -26,23 +26,31 @@ namespace Geosphere
                 $"&format=json" +
                 $"&polygon_geojson=1";
 
-            _ulr = url;
-
-            Debug.WriteLine(url);
+            return url;
         }
 
-        public string GetContent()
+        public string GetContent(in SearchQuery searchQuery)
         {
+            _ulr = UpdateUrl(in searchQuery);
+
             var task = GetContentAsync(_httpClient);
             task.Wait();
 
             string result = task.Result;
+
+            if (result != "")
+            {
+                ConsoleHandler.WriteCyan("[2/4] Географический сервис успешно предоставил ответ...");
+            }
+
             return result;
         }
 
         // HttpClient is intended to be instantiated once per application, rather than per-use. See Remarks.
         private async Task<string> GetContentAsync(HttpClient client)
         {
+            ConsoleHandler.WriteCyan("[1/4] Выполняет запрос к географическому сервису \"nominatim.openstreetmap.org\"... ");
+
             // Call asynchronous network methods in a try/catch block to handle exceptions.
             try
             {
@@ -59,8 +67,8 @@ namespace Geosphere
             }
             catch (HttpRequestException e)
             {
-                Console.WriteLine("\nException Caught!");
-                Console.WriteLine("Message :{0} ", e.Message);
+                Console.WriteLine("\nОбнаружено исключение!");
+                Console.WriteLine("Ошибка :{0} ", e.Message);
                 return "";
             }
         }           

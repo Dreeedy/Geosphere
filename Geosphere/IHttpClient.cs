@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Geosphere
 {
+    /// <summary>
+    /// Интерфейс IHttpClient, объявляет общий фукнционал для всех вариантов обращения к стороннему сервису
+    /// </summary>
     interface IHttpClient
     {
         private static readonly HttpClient _httpClient;
@@ -16,8 +19,6 @@ namespace Geosphere
             _httpClient = new HttpClient();
         }
 
-        public void UpdateUrl(in SearchQuery searchQuery);
-
-        public string GetContent();
+        public string GetContent(in SearchQuery searchQuery);
     }
 }

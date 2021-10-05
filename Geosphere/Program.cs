@@ -39,6 +39,9 @@ namespace Geosphere
         }
     }
 
+    /// <summary>
+    /// Класс Program описывает основную логику программы
+    /// </summary>
     class Program
     {
         private static SearchQuery _searchQuery;
@@ -62,8 +65,6 @@ namespace Geosphere
         {
             string data;
             data = _geographicService.Search(in _searchQuery, ref _httpClient);
-            ConsoleHandler.WriteYellow(data);
-            Console.Clear();
 
             _saveHandler.Save(data, _searchQuery.GetFileName());            
 

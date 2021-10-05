@@ -11,10 +11,7 @@ namespace Geosphere
         public override string Search(in SearchQuery searchQuery, ref IHttpClient httpClient)
         {
             string result;
-            httpClient.UpdateUrl(in searchQuery);
-
-            result = httpClient.GetContent();
-
+            result = httpClient.GetContent(in searchQuery);
             return result;
         }
     }

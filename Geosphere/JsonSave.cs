@@ -21,8 +21,10 @@ namespace Geosphere
         }        
 
         public override void Save(string data, string fileName)
-        {
+        {            
             string path = _pathToJsonFolder + "/" + fileName + ".json";
+
+            ConsoleHandler.WriteCyan($"[3/4] Сохранение файла [{fileName}.json]... ");
 
             FileStream fileStream = new FileStream(path, FileMode.Create);
             StreamWriter streamWriter = new StreamWriter(fileStream);
@@ -31,6 +33,9 @@ namespace Geosphere
 
             streamWriter.Close();
             fileStream.Close();
+
+            ConsoleHandler.WriteCyan($"[4/4] Файл [{fileName}.json] успешно сохранен... ");
+            ConsoleHandler.WriteSplitter('*', 120);
         }
 
         private void CreateFolder(string folderName)
