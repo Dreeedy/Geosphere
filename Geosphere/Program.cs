@@ -54,7 +54,8 @@ namespace Geosphere
             _httpClient = new HttpGeographicClient();
             _geographicService = new NominatimGeographicService();
 
-            _saveHandler = new JsonSave("polygons_json");
+            string mainFolderName = "polygons_json";
+            _saveHandler = new JsonSave(mainFolderName);
         }
 
         /// <summary>
