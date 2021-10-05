@@ -128,15 +128,29 @@ namespace Geosphere
         }
 
         /// <summary>
-        /// Метод принимает от Пользователя адрес
+        /// Метод принимает от Пользователя адрес и выполняет проверки
         /// </summary>
         /// <param name="_address"></param>
         /// <returns></returns>
         private static string GetAddress(out string _address)
         {
-            ConsoleHandler.WriteYellow("Введите адрес: ");
-            _address = ConsoleHandler.Read();
-            Console.Clear();
+            bool go = false;
+            
+            do
+            {
+                go = false;
+
+                ConsoleHandler.WriteYellow("Введите адрес: ");
+                _address = ConsoleHandler.Read();
+
+                if (_address.Count() <= 0)// если пользователь ничего не ввел
+                {
+                    go = true;
+                }
+
+                Console.Clear();
+            } 
+            while (go);            
 
             return _address;
         }
@@ -153,7 +167,7 @@ namespace Geosphere
 
             _polygonSimplification = ConsoleHandler.Read();
 
-            if (_polygonSimplification == "")// если ничего не ввели
+            if (_polygonSimplification == "")// если пользователь ничего не ввели
             {
                 _polygonSimplification = "0.000";
             }
@@ -169,9 +183,23 @@ namespace Geosphere
         /// <returns></returns>
         private static string GetFileName(out string _fileName)
         {
-            ConsoleHandler.WriteYellow("Введите имя файла: ");
-            _fileName = ConsoleHandler.Read();
-            Console.Clear();
+            bool go = false;
+
+            do
+            {
+                go = false;
+
+                ConsoleHandler.WriteYellow("Введите имя файла: ");
+                _fileName = ConsoleHandler.Read();
+
+                if (_fileName.Count() <= 0)// если пользователь ничего не ввел
+                {
+                    go = true;
+                }
+
+                Console.Clear();
+            }
+            while (go);
 
             return _fileName;
         }
